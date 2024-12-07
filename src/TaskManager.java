@@ -8,9 +8,7 @@ public class TaskManager {
     private HashMap<Integer, Subtask> subtasks = new HashMap<>();
 
 
-    private Integer generateId() {
-        return ++genId;
-    }
+
 
     //  Получение списка всех задач.
 
@@ -168,6 +166,10 @@ public class TaskManager {
 
     public ArrayList<Integer> getEpicSubtask(Epic epic) {
         return epic.getSubTasksIds();
+    }
+
+    private Integer generateId() {
+        return ++genId;
     }
 
     private void updateEpicStatus(Epic epic) {
