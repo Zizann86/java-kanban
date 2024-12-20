@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Поехали!");
 
-        TaskManager manager = new TaskManager();
+        TaskManager manager = Managers.getDefault();
         Task garbage = new Task("Мусор", "Вынести мусор");
         manager.createTask(garbage);
         System.out.println(manager.getAllTasks());
