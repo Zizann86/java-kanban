@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private final HandMadeLinkedList<Task> historyTasksForList = new HandMadeLinkedList<>();
+    private final HandMadeLinkedList historyTasksForList = new HandMadeLinkedList();
     private final Map<Integer, Node> historyTasksForMap = new HashMap<>();
 
     //Создаем вложенный класс Node:
@@ -43,7 +43,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     //Создаем свою реализацию LinkedList:
-    private static class HandMadeLinkedList<T> {
+    private static class HandMadeLinkedList {
         private Node head;
         private Node tail;
 

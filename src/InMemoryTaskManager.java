@@ -14,7 +14,6 @@ public class InMemoryTaskManager implements TaskManager {
         this.historyManager = historyManager;
     }
 
-
     //  Получение списка всех задач.
 
     @Override
