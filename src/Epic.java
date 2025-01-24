@@ -14,14 +14,13 @@ public class Epic extends Task {
 
     public void setSubTasksIds(ArrayList<Integer> subTasksIds) {
         this.subTasksIds = subTasksIds;
-
     }
 
-    public void addSubtaskId (Subtask subtask) {
+    public void addSubtaskId(Subtask subtask) {
         subTasksIds.add(subtask.getId());
-
     }
-    public void clearSubtaskId () {
+
+    public void clearSubtaskId() {
         subTasksIds.clear();
     }
 }
