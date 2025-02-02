@@ -3,18 +3,16 @@ import java.util.Objects;
 public class Task {
     private String name;
     private String description;
-    private int Id;
+    private int id;
     private Status status;
-
-
 
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
-        Id = 0;
+        id = 0;
         status = Status.NEW;
-
     }
+
     public String getDescription() {
         return description;
     }
@@ -32,11 +30,11 @@ public class Task {
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int taskId) {
-        this.Id = taskId;
+        this.id = taskId;
     }
 
     public String getName() {
@@ -55,20 +53,20 @@ public class Task {
         Task otherTask = (Task) obj; // открываем доступ к полям другого объекта
         return Objects.equals(name, otherTask.name) && // проверяем все поля
                 Objects.equals(description, otherTask.description) && // нужно логическое «и»
-                (Id == otherTask.Id) && // примитивы сравниваем через ==
+                (id == otherTask.id) && // примитивы сравниваем через ==
                 Objects.equals(status, otherTask.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, Id, status);
+        return Objects.hash(name, description, id, status);
     }
 
     @Override
     public String toString() {
         return "Задача: " + name
                 + ", Описание: " + description
-                + ", ID: " + Id
+                + ", ID: " + id
                 + ", Статус: " + status;
     }
 
