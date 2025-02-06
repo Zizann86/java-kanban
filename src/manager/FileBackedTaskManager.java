@@ -23,34 +23,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         this.file = file;
     }
 
-    private void save() {
-        List<Task> allTasks = getAllTasks();
-        String taskAsString = "vseravno perezapishem";
-        for (Task task : allTasks) {
-           taskAsString = taskToString(task);
-        }
-        List<Epic> allEpics = getAllEpics();
-        for (Epic epic : allEpics) {
-             taskAsString = taskToString(epic);
-        }
-        List<Subtask> allSubtask = getAllSubtasks();
-        for (Subtask subtask : allSubtask) {
-             taskAsString = taskToString(subtask);
-        }
-        writeStringToFile(taskAsString);
-    }
-
-    private void writeStringToFile(String taskAsString) {
-        try (FileWriter fileWriter = new FileWriter(file, true)) {
-            fileWriter.write(taskAsString);
-            fileWriter.write('\n');
-        } catch (IOException e) {
-            String errorMessage = "Ошибка при сохранение файла: " + e.getMessage();
-            System.out.println(errorMessage);
-            throw new ManagerSaveException(errorMessage);
-        }
-    }
-
     public String taskToString(Task task) {
         StringBuilder sb = new StringBuilder();
         sb.append(task.getId()).append(",");
@@ -186,6 +158,34 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         Subtask deleteSubtask = super.deleteSubtaskId(id);
         save();
         return deleteSubtask;
+    }
+
+    private void save() {
+        List<Task> allTasks = getAllTasks();
+        String taskAsString = "vseravno perezapishem";
+        for (Task task : allTasks) {
+            taskAsString = taskToString(task);
+        }
+        List<Epic> allEpics = getAllEpics();
+        for (Epic epic : allEpics) {
+            taskAsString = taskToString(epic);
+        }
+        List<Subtask> allSubtask = getAllSubtasks();
+        for (Subtask subtask : allSubtask) {
+            taskAsString = taskToString(subtask);
+        }
+        writeStringToFile(taskAsString);
+    }
+
+    private void writeStringToFile(String taskAsString) {
+        try (FileWriter fileWriter = new FileWriter(file, true)) {
+            fileWriter.write(taskAsString);
+            fileWriter.write('\n');
+        } catch (IOException e) {
+            String errorMessage = "Ошибка при сохранение файла: " + e.getMessage();
+            System.out.println(errorMessage);
+            throw new ManagerSaveException(errorMessage);
+        }
     }
 }
 
