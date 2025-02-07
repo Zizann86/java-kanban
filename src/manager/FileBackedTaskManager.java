@@ -23,19 +23,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         this.file = file;
     }
 
-    public String taskToString(Task task) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(task.getId()).append(",");
-        sb.append(task.getType()).append(",");
-        sb.append(task.getName()).append(",");
-        sb.append(task.getStatus()).append(",");
-        sb.append(task.getDescription());
-        if (task.getType().equals(Type.SUBTASK) && task instanceof Subtask subtask) {
-            sb.append(",").append(subtask.getEpicId());
-        }
-        return sb.toString();
-    }
-
     public static FileBackedTaskManager loadFromFile(File file) {
         try {
             FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(new InMemoryHistoryManager(), file);
@@ -56,26 +43,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             String errorMessage = "Ошибка при чтении файла: " + e.getMessage();
             System.out.println(errorMessage);
             throw new ManagerReadException(errorMessage);
-        }
-    }
-
-    public static Task fromString(String value) {
-        String[] split = value.split(",");
-        int id = Integer.parseInt(split[0]);
-        String type = split[1];
-        String name = split[2];
-        Status status = Status.valueOf(split[3]);
-        String description = split[4];
-        switch (type) {
-            case "TASK":
-                return new Task(id, name, status, description);
-            case "EPIC":
-                return new Epic(id, name, status, description);
-            case "SUBTASK":
-                return new Subtask(id, name, status, description, Integer.parseInt(split[split.length - 1]));
-            default:
-                System.out.println("Ошибка, такого типа не существует");
-                return null;
         }
     }
 
@@ -158,6 +125,39 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         Subtask deleteSubtask = super.deleteSubtaskId(id);
         save();
         return deleteSubtask;
+    }
+
+    private static Task fromString(String value) {
+        String[] split = value.split(",");
+        int id = Integer.parseInt(split[0]);
+        String type = split[1];
+        String name = split[2];
+        Status status = Status.valueOf(split[3]);
+        String description = split[4];
+        switch (type) {
+            case "TASK":
+                return new Task(id, name, status, description);
+            case "EPIC":
+                return new Epic(id, name, status, description);
+            case "SUBTASK":
+                return new Subtask(id, name, status, description, Integer.parseInt(split[split.length - 1]));
+            default:
+                System.out.println("Ошибка, такого типа не существует");
+                return null;
+        }
+    }
+
+    private String taskToString(Task task) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(task.getId()).append(",");
+        sb.append(task.getType()).append(",");
+        sb.append(task.getName()).append(",");
+        sb.append(task.getStatus()).append(",");
+        sb.append(task.getDescription());
+        if (task.getType().equals(Type.SUBTASK) && task instanceof Subtask subtask) {
+            sb.append(",").append(subtask.getEpicId());
+        }
+        return sb.toString();
     }
 
     private void save() {
