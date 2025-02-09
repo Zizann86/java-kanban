@@ -1,4 +1,7 @@
+package tasks;
+
 import java.util.Objects;
+
 
 public class Task {
     private String name;
@@ -11,6 +14,13 @@ public class Task {
         this.description = description;
         id = 0;
         status = Status.NEW;
+    }
+
+    public Task(int id, String name, Status status, String description) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+        this.status = status;
     }
 
     public String getDescription() {
@@ -45,6 +55,10 @@ public class Task {
         this.name = name;
     }
 
+    public Type getType() {
+        return Type.TASK;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true; //проверяем адреса объектов
@@ -69,5 +83,4 @@ public class Task {
                 + ", ID: " + id
                 + ", Статус: " + status;
     }
-
 }
