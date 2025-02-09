@@ -189,7 +189,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    private static int maxId (List<String> allLines) {
+    private static int maxId(List<String> allLines) {
         int maxCounter = 0;
         for (String allLine : allLines) {
             String[] split = allLine.split(",");
