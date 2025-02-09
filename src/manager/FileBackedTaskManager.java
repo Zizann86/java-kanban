@@ -30,6 +30,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             for (String line : allLines) {
                 Task task = fromString(line);
                 Type type = task.getType();
+                genId = maxId(allLines) + 1;
                 if (type.equals(Type.TASK)) {
                     fileBackedTaskManager.tasks.put(task.getId(), task);
                 } else if (type.equals(Type.EPIC) && task instanceof Epic epic) {
@@ -186,5 +187,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             System.out.println(errorMessage);
             throw new ManagerSaveException(errorMessage);
         }
+    }
+
+    private static int maxId (List<String> allLines) {
+        int maxCounter = 0;
+        for (String allLine : allLines) {
+            String[] split = allLine.split(",");
+            int id = Integer.parseInt(split[0]);
+            if (id > maxCounter) {
+                maxCounter = id;
+            }
+        }
+        return maxCounter;
     }
 }
