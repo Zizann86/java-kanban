@@ -1,5 +1,11 @@
 package tasks;
 
+
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 
@@ -8,10 +14,40 @@ public class Task {
     private String description;
     private int id;
     private Status status;
+    private Duration duration;
+    private Instant startTime;
+
+    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyy/ HH:mm");
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public void setStartTime(Instant startTime) {
+        this.startTime = startTime;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public Instant getStartTime() {
+        return startTime;
+    }
+
 
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
+        id = 0;
+        status = Status.NEW;
+    }
+
+    public Task(String name, String description, Duration duration, Instant startTime) {
+        this.name = name;
+        this.description = description;
+        this.duration = duration;
+        this.startTime = startTime;
         id = 0;
         status = Status.NEW;
     }
@@ -21,6 +57,15 @@ public class Task {
         this.description = description;
         this.id = id;
         this.status = status;
+    }
+
+    public Task(int id, String name, Status status, String description, Duration duration, Instant startTime) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+        this.status = status;
+        this.duration = duration;
+        this.startTime = startTime;
     }
 
     public String getDescription() {
@@ -59,6 +104,14 @@ public class Task {
         return Type.TASK;
     }
 
+    public Instant getEndTime() {
+        if (this.startTime != null && this.duration != null) {
+            return this.startTime.plus(this.duration);
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true; //проверяем адреса объектов
@@ -81,6 +134,9 @@ public class Task {
         return "Задача: " + name
                 + ", Описание: " + description
                 + ", ID: " + id
-                + ", Статус: " + status;
+                + ", Статус: " + status
+                + ", Старт: " + ZonedDateTime.ofInstant(getStartTime(), ZoneId.systemDefault()).format(formatter)
+                + ", Продолжительность: " + duration.toMinutes() + " минут";
+
     }
 }

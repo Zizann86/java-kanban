@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
@@ -135,13 +137,15 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         String name = split[2];
         Status status = Status.valueOf(split[3]);
         String description = split[4];
+        Duration duration = Duration.parse(split[5].trim());
+        Instant startTime = Instant.parse(split[6].trim());
         switch (type) {
             case "TASK":
-                return new Task(id, name, status, description);
+                return new Task(id, name, status, description, duration, startTime);
             case "EPIC":
-                return new Epic(id, name, status, description);
+                return new Epic(id, name, status, description, duration, startTime);
             case "SUBTASK":
-                return new Subtask(id, name, status, description, Integer.parseInt(split[split.length - 1]));
+                return new Subtask(id, name, status, description, Integer.parseInt(split[split.length - 1]), duration, startTime);
             default:
                 System.out.println("Ошибка, такого типа не существует");
                 return null;
@@ -154,10 +158,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         sb.append(task.getType()).append(",");
         sb.append(task.getName()).append(",");
         sb.append(task.getStatus()).append(",");
-        sb.append(task.getDescription());
+        sb.append(task.getDescription()).append(",");
         if (task.getType().equals(Type.SUBTASK) && task instanceof Subtask subtask) {
             sb.append(",").append(subtask.getEpicId());
         }
+        sb.append(task.getDuration()).append(",");
+        sb.append(task.getStartTime());
         return sb.toString();
     }
 

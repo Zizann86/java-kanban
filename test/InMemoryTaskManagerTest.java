@@ -1,3 +1,5 @@
+import manager.InMemoryHistoryManager;
+import manager.InMemoryTaskManager;
 import manager.Managers;
 import manager.TaskManager;
 import org.junit.jupiter.api.Assertions;
@@ -8,23 +10,29 @@ import tasks.Status;
 import tasks.Subtask;
 import tasks.Task;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-// Прошу прощения, не там создал папку test)
 
-class InMemoryTaskManagerTest {
+public class InMemoryTaskManagerTest extends TaskManagerTest {
 
-   private TaskManager taskManager;
+    private TaskManager taskManager;
 
     @BeforeEach
     public void init() {
-      taskManager = Managers.getDefault();
+        taskManager = Managers.getDefault();
+    }
+
+    @Override
+    TaskManager getTaskManager() {
+        return new InMemoryTaskManager(new InMemoryHistoryManager());
     }
 
     @Test
     void createTask() {
-        Task task = new Task("Бег", "Бегать по лесу");
+        Task task = new Task("Бег", "Бегать по лесу", Duration.ofMinutes(3), Instant.now());
 
         Task createTask = taskManager.createTask(task);
 
@@ -33,13 +41,11 @@ class InMemoryTaskManagerTest {
         Assertions.assertEquals(actualTask.getStatus(), Status.NEW);
         Assertions.assertEquals(actualTask.getDescription(), "Бегать по лесу");
         Assertions.assertEquals(actualTask.getName(), "Бег");
-
-
     }
 
     @Test
     void taskInHistoryListShouldNotBeUpdatedAfterTaskUpdate() {
-        Task task = new Task("Бег", "Бегать по лесу");
+        Task task = new Task("Бег", "Бегать по лесу", Duration.ofMinutes(3), Instant.now());
 
         taskManager.createTask(task);
         taskManager.getTaskId(task.getId());
@@ -55,10 +61,9 @@ class InMemoryTaskManagerTest {
 
     }
 
-
     @Test
     void deleteTaskId() {
-        Task task = new Task("Бег", "Бегать по лесу");
+        Task task = new Task("Бег", "Бегать по лесу", Duration.ofMinutes(3), Instant.now());
 
         taskManager.createTask(task);
         taskManager.getAllTasks();
@@ -71,10 +76,7 @@ class InMemoryTaskManagerTest {
         taskManager.getAllTasks();
         ArrayList<Task> tasksAfterDelete = taskManager.getAllTasks();
         Assertions.assertTrue(tasksAfterDelete.isEmpty());
-
-
     }
-
 
     @Test
     void updateSubtask() {
@@ -90,8 +92,6 @@ class InMemoryTaskManagerTest {
         Status statusAfterUpdate = subtask.getStatus();
 
         Assertions.assertNotEquals(statusBeforeUpdate, statusAfterUpdate);
-
-
     }
 
     @Test
@@ -103,8 +103,6 @@ class InMemoryTaskManagerTest {
 
         Task taskWalk = taskManager.createTask(otherTask);
 
-
         Assertions.assertNotEquals(taskRun, taskWalk);
     }
-
 }

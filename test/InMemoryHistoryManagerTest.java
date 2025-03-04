@@ -1,5 +1,7 @@
 import manager.HistoryManager;
 import manager.InMemoryHistoryManager;
+import manager.InMemoryTaskManager;
+import manager.TaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tasks.Epic;
@@ -8,15 +10,16 @@ import tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-public class InMemoryHistoryManagerTest {
-     Task task;
-     Epic epic;
-     Subtask subtask1Epic;
-     Subtask subtask2Epic;
+public class InMemoryHistoryManagerTest extends TaskManagerTest {
+    Task task;
+    Epic epic;
+    Subtask subtask1Epic;
+    Subtask subtask2Epic;
 
-     HistoryManager historyManager;
+    HistoryManager historyManager;
 
     @BeforeEach
     void beforeEach() {
@@ -27,8 +30,13 @@ public class InMemoryHistoryManagerTest {
         subtask2Epic = new Subtask("Сабтаск2", "описание сабтаска2", epic.getId());
     }
 
+    @Override
+    TaskManager getTaskManager() {
+        return new InMemoryTaskManager(new InMemoryHistoryManager());
+    }
+
     @Test
-    void addToHistory () {
+    void addToHistory() {
         task.setId(0);
         historyManager.addToHistory(task);
         epic.setId(1);
@@ -67,6 +75,7 @@ public class InMemoryHistoryManagerTest {
         assertEquals(forComparisonHistory.size(), listHistory.size(), "Не совпадают размеры списков");
         assertTrue(forComparisonHistory.containsAll(listHistory), "Списки не совпадают");
     }
+
     @Test
     void remove() {
         task.setId(0);
