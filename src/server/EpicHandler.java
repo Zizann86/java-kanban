@@ -13,8 +13,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class EpicHandler extends BaseHttpHandler {
-    private TaskManager taskManager;
-    private Gson jsonMapper;
+    private final TaskManager taskManager;
+    private final Gson jsonMapper;
 
     public EpicHandler(TaskManager taskManager, Gson jsonMapper) {
         this.jsonMapper = jsonMapper;

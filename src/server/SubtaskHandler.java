@@ -15,8 +15,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class SubtaskHandler extends BaseHttpHandler {
-    private TaskManager taskManager;
-    private Gson jsonMapper;
+    private final TaskManager taskManager;
+    private final Gson jsonMapper;
 
     public SubtaskHandler(TaskManager taskManager, Gson jsonMapper) {
         this.jsonMapper = jsonMapper;
