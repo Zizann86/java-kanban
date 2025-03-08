@@ -57,7 +57,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void createSubtask() {
         taskManager.createEpic(epic);
-        Subtask subtask1 = new Subtask("Сабтаск1", "описание сабтаска1", epic.getId());
+        Subtask subtask1 = new Subtask("Сабтаск1", "описание сабтаска1", epic.getId(), Duration.ofMinutes(3), Instant.now());
         taskManager.createSubtask(subtask1);
 
         Subtask verification = taskManager.getSubtaskId(subtask1.getId());
@@ -112,7 +112,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         final String description = "Описание нового сабтаска";
         final Status status = Status.DONE;
         taskManager.createEpic(epic);
-        Subtask subtask1 = new Subtask("Сабтаск1", "описание сабтаска1", epic.getId());
+        Subtask subtask1 = new Subtask("Сабтаск1", "описание сабтаска1", epic.getId(), Duration.ofMinutes(3), Instant.now());
         taskManager.createSubtask(subtask1);
         subtask1.setName(name);
         subtask1.setDescription(description);
@@ -153,7 +153,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void deleteSubtaskById() {
         taskManager.createEpic(epic);
-        Subtask subtask1 = new Subtask("Сабтаск1", "описание сабтаска1", epic.getId());
+        Subtask subtask1 = new Subtask("Сабтаск1", "описание сабтаска1", epic.getId(), Duration.ofMinutes(3), Instant.now());
         taskManager.createSubtask(subtask1);
 
         taskManager.deleteSubtaskId(subtask1.getId());
@@ -165,7 +165,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     void deleteAllTasks() {
-        Task task1 = new Task("Таск 1", "Описание таск1");
+        Task task1 = new Task("Таск 1", "Описание таск1", Duration.ofMinutes(3), Instant.now().plusSeconds(90000));
         taskManager.createTask(task);
         taskManager.createTask(task1);
 
@@ -190,8 +190,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
         Epic epic1 = new Epic("Эпик 1", "Описание эпика1");
         taskManager.createEpic(epic);
         taskManager.createEpic(epic1);
-        Subtask subtask1 = new Subtask("Сабтаск1", "описание сабтаска1", epic.getId());
-        Subtask subtask2 = new Subtask("Сабтаск2", "описание сабтаска2", epic.getId());
+        Subtask subtask1 = new Subtask("Сабтаск1", "описание сабтаска1", epic.getId(), Duration.ofMinutes(3), Instant.now());
+        Subtask subtask2 = new Subtask("Сабтаск2", "описание сабтаска2", epic.getId(), Duration.ofMinutes(3), Instant.now().plusSeconds(50000));
 
         taskManager.createSubtask(subtask1);
         taskManager.createSubtask(subtask2);

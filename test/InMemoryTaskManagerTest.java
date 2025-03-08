@@ -80,10 +80,9 @@ public class InMemoryTaskManagerTest extends TaskManagerTest {
 
     @Test
     void updateSubtask() {
-        Epic epic = new Epic("Порядок дома", "Уборка дома");
-        Subtask subtask = new Subtask("Уборка", "Помыть посуду", epic.getId());
-
+        Epic epic = new Epic("Порядок дома", "Уборка дома", Duration.ofMinutes(3), Instant.now());
         taskManager.createEpic(epic);
+        Subtask subtask = new Subtask("Уборка", "Помыть посуду", epic.getId(), Duration.ofMinutes(3), Instant.now().plusSeconds(80000));
         taskManager.createSubtask(subtask);
         Status statusBeforeUpdate = subtask.getStatus();
 
@@ -96,8 +95,8 @@ public class InMemoryTaskManagerTest extends TaskManagerTest {
 
     @Test
     void EqualToEachOtherIfTheirId() {
-        Task task = new Task("Бег", "Бегать по лесу");
-        Task otherTask = new Task("Бег", "Гулять по лесу");
+        Task task = new Task("Бег", "Бегать по лесу", Duration.ofMinutes(3), Instant.now());
+        Task otherTask = new Task("Бег", "Гулять по лесу", Duration.ofMinutes(3), Instant.now().plusSeconds(80000));
 
         Task taskRun = taskManager.createTask(task);
 
@@ -106,3 +105,5 @@ public class InMemoryTaskManagerTest extends TaskManagerTest {
         Assertions.assertNotEquals(taskRun, taskWalk);
     }
 }
+//manager.createTask(new Task("Первая таска", "описание", Duration.ofMinutes(3), Instant.now()));
+     //   manager.createTask(new Task("Вторая таска", "описание", Duration.ofMinutes(3), Instant.now().plusSeconds(80000)));

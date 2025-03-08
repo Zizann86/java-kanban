@@ -17,8 +17,6 @@ public class Task {
     private Duration duration;
     private Instant startTime;
 
-    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyy/ HH:mm");
-
     public void setDuration(Duration duration) {
         this.duration = duration;
     }
@@ -135,8 +133,8 @@ public class Task {
                 + ", Описание: " + description
                 + ", ID: " + id
                 + ", Статус: " + status
-                + ", Старт: " + ZonedDateTime.ofInstant(getStartTime(), ZoneId.systemDefault()).format(formatter)
+               // + ", Старт: " + ZonedDateTime.ofInstant(getStartTime(), ZoneId.systemDefault()).format(formatter)
+                + ", Старт: " + ZonedDateTime.ofInstant(startTime, ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("dd.MM.yyyy/ HH:mm"))
                 + ", Продолжительность: " + duration.toMinutes() + " минут";
-
     }
 }
