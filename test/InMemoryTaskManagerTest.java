@@ -105,5 +105,3 @@ public class InMemoryTaskManagerTest extends TaskManagerTest {
         Assertions.assertNotEquals(taskRun, taskWalk);
     }
 }
-//manager.createTask(new Task("Первая таска", "описание", Duration.ofMinutes(3), Instant.now()));
-     //   manager.createTask(new Task("Вторая таска", "описание", Duration.ofMinutes(3), Instant.now().plusSeconds(80000)));
